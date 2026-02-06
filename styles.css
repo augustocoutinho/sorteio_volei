@@ -1,0 +1,114 @@
+
+    .player {
+      cursor: grab;
+      user-select: none;
+    }
+
+    .player:active {
+      cursor: grabbing;
+    }
+
+    #playersPool {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 8px;
+  border: 2px dashed #dee2e6; /* borda sólida */
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  min-height: 60px;
+  gap: 4px;
+  box-sizing: border-box;
+}
+
+#playersPool input {
+  flex: 1;
+  min-width: 100px;
+  height: 100%; /* ocupa toda altura do container */
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.9rem;
+  color: #495057;
+  caret-color: #0d6efd;
+  box-sizing: border-box; /* para respeitar padding */
+}
+
+    #playersPool input::placeholder {
+    color: #adb5bd;
+    }
+
+    .drop-zone {
+      min-height: 220px;
+      background: #f8f9fa;
+      border: 2px dashed #dee2e6;
+      transition: border-color 0.2s ease;
+      min-height: 90px;       
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .drop-zone h6 {
+      user-select: none;
+      padding-right: 30px;
+    }
+
+    .team-card {
+      background: #f1f3f5;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    /* HEADER */
+  .app-header {
+    width: 100%;
+    height: 60px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* CONTAINER DA LOGO */
+  .logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 30px; /* sobe a logo acima do header */
+    z-index: 2;
+  }
+
+  .logo-container .logo {
+    height: 200px; /* altura grande, independente do header */
+    object-fit: contain;
+  }
+
+
+
+  /* FOOTER */
+  .app-footer {
+    width: 100%;
+    height: 40px; /* fino */
+    background-color: #ffffff;
+    border-top: 1px solid #dee2e6;
+    font-size: 0.8rem;
+    color: #6c757d;
+  }
+
+  /* Responsividade (mobile) */
+  @media (max-width: 576px) {
+    .app-header {
+      height: 50px;
+    }
+    .app-header .logo {
+      max-height: 90px;
+    }
+    .app-footer {
+      height: 35px;
+      font-size: 0.7rem;
+    }
+  }
+ 
