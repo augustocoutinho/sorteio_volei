@@ -1,114 +1,115 @@
+body {
+  background-color: #f8f9fa;
+}
 
-    .player {
-      cursor: grab;
-      user-select: none;
-    }
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
-    .player:active {
-      cursor: grabbing;
-    }
+.logo {
+  height: 160px;
+  border-radius: 100%;
+}
 
-    #playersPool {
+.players-pool {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  padding: 8px;
-  border: 2px dashed #dee2e6; /* borda sólida */
-  border-radius: 8px;
-  background-color: #f8f9fa;
-  min-height: 60px;
-  gap: 4px;
-  box-sizing: border-box;
+  gap: 8px; /* antes estava 6px */
+  padding: 12px;
+  border: 2px dashed #dee2e6;
+  border-radius: 12px;
+  background: #fdfdfd;
+  min-height: 70px;
 }
 
-#playersPool input {
+.players-pool input {
   flex: 1;
-  min-width: 100px;
-  height: 100%; /* ocupa toda altura do container */
   border: none;
   outline: none;
-  background: transparent;
-  font-size: 0.9rem;
-  color: #495057;
-  caret-color: #0d6efd;
-  box-sizing: border-box; /* para respeitar padding */
+  min-width: 120px;
 }
 
-    #playersPool input::placeholder {
-    color: #adb5bd;
-    }
+.player {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: #e9ecef;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  cursor: grab;
+  user-select: none;
+  white-space: nowrap;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-    .drop-zone {
-      min-height: 220px;
-      background: #f8f9fa;
-      border: 2px dashed #dee2e6;
-      transition: border-color 0.2s ease;
-      min-height: 90px;       
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-    }
 
-    .drop-zone h6 {
-      user-select: none;
-      padding-right: 30px;
-    }
+.player:active {
+  cursor: grabbing;
+}
 
-    .team-card {
-      background: #f1f3f5;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 12px;
-    }
+.player:hover {
+  background: #dee2e6;
+}
 
-    /* HEADER */
-  .app-header {
+.player.dragging {
+  opacity: 0.6;
+}
+
+.drop-zone {
+  min-height: 90px;
+  border: 2px dashed #dee2e6;
+  border-radius: 12px;
+  padding: 10px;
+  background: #f8f9fa;
+  transition: 0.2s;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 576px) {
+  .drop-zone .player {
     width: 100%;
-    height: 60px;
-    background-color: #ffffff;
-    border-bottom: 1px solid #dee2e6;
-    position: relative;
-    z-index: 1;
   }
+}
 
-  /* CONTAINER DA LOGO */
-  .logo-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    top: 30px; /* sobe a logo acima do header */
-    z-index: 2;
+.drop-zone.drag-over {
+  background: #e7f1ff;
+  border-color: #0d6efd;
+}
+
+.team-card {
+  background: white;
+  border-radius: 50px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(139, 139, 139, 0.05);
+}
+
+.app-footer {
+  margin-top: 40px;
+  padding: 10px;
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+/* Coluna de configuração */
+.config-panel {
+  border-right: 1px solid #dee2e6;
+  padding-right: 12px;
+}
+
+/* Em mobile, remove divisão */
+@media (max-width: 768px) {
+  .config-panel {
+    border-right: none;
+    padding-right: 0;
   }
-
-  .logo-container .logo {
-    height: 200px; /* altura grande, independente do header */
-    object-fit: contain;
-  }
-
-
-
-  /* FOOTER */
-  .app-footer {
-    width: 100%;
-    height: 40px; /* fino */
-    background-color: #ffffff;
-    border-top: 1px solid #dee2e6;
-    font-size: 0.8rem;
-    color: #6c757d;
-  }
-
-  /* Responsividade (mobile) */
-  @media (max-width: 576px) {
-    .app-header {
-      height: 50px;
-    }
-    .app-header .logo {
-      max-height: 90px;
-    }
-    .app-footer {
-      height: 35px;
-      font-size: 0.7rem;
-    }
-  }
- 
+}
