@@ -13,85 +13,72 @@ body {
   border-radius: 100%;
 }
 
+/* Painel fixo */
+.sticky-top-panel {
+  position: sticky;
+  top: 10px;
+  z-index: 10;
+}
+
+/* Pool */
 .players-pool {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px; /* antes estava 6px */
+  gap: 8px;
   padding: 12px;
   border: 2px dashed #dee2e6;
   border-radius: 12px;
   background: #fdfdfd;
-  min-height: 70px;
 }
 
 .players-pool input {
   flex: 1;
   border: none;
   outline: none;
-  min-width: 120px;
+  min-width: 140px;
 }
 
+/* Badge dinâmica */
 .player {
   display: inline-flex;
   align-items: center;
   padding: 6px 10px;
-  background: #e9ecef;
   border-radius: 8px;
   font-size: 0.85rem;
-  line-height: 1.2;
   cursor: grab;
   user-select: none;
   white-space: nowrap;
-  max-width: 160px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-
 
 .player:active {
   cursor: grabbing;
-}
-
-.player:hover {
-  background: #dee2e6;
 }
 
 .player.dragging {
   opacity: 0.6;
 }
 
+/* Grupos */
 .drop-zone {
   min-height: 90px;
   border: 2px dashed #dee2e6;
   border-radius: 12px;
   padding: 10px;
   background: #f8f9fa;
-  transition: 0.2s;
-
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-@media (max-width: 576px) {
-  .drop-zone .player {
-    width: 100%;
-  }
-}
-
-.drop-zone.drag-over {
-  background: #e7f1ff;
-  border-color: #0d6efd;
-}
-
+/* Cards */
 .team-card {
   background: white;
-  border-radius: 50px;
+  border-radius: 16px;
   padding: 12px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 6px rgba(139, 139, 139, 0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
+/* Footer */
 .app-footer {
   margin-top: 40px;
   padding: 10px;
@@ -100,16 +87,10 @@ body {
   font-size: 0.8rem;
 }
 
-/* Coluna de configuração */
-.config-panel {
-  border-right: 1px solid #dee2e6;
-  padding-right: 12px;
-}
-
-/* Em mobile, remove divisão */
+/* Mobile */
 @media (max-width: 768px) {
-  .config-panel {
-    border-right: none;
-    padding-right: 0;
+  .sticky-top-panel {
+    max-height: 75vh;
+    overflow-y: auto;
   }
 }
