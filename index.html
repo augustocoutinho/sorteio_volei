@@ -16,74 +16,75 @@
   <img src="imgs/logo.png" alt="Vôlei de Segunda" class="logo">
 </header>
 
-<div class="container mt-5">
+<div class="container mt-4">
 
-  <div class="card mb-4 shadow-sm">
-  <div class="card-body">
-    <div class="row g-4 align-items-start">
+  <!-- PAINEL FIXO -->
+  <div class="card mb-4 shadow-sm sticky-top-panel">
+    <div class="card-body">
+      <div class="row g-4 align-items-start">
 
-      <!-- CONFIGURAÇÃO (20%) -->
-      <div class="col-12 col-md-3">
-        <h6 class="text-muted mb-2">Configuração</h6>
-        <select id="groupsSelect" class="form-select mb-2">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4" selected>4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-        </select>
+        <!-- CONFIGURAÇÃO -->
+        <div class="col-12 col-md-3">
+          <h6 class="text-muted mb-2">Configuração</h6>
 
-        <button
-          id="createGroupsBtn"
-          type="button"
-          class="btn btn-primary w-100">
-          Criar grupos
-        </button>
-      </div>
+          <select id="groupsSelect" class="form-select mb-2">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
 
-      <!-- PARTICIPANTES (80%) -->
-      <div class="col-12 col-md-9">
-        <h6 class="text-muted mb-2">Participantes</h6>
-
-        <div id="playersPool" class="players-pool">
-          <span class="badge player bg-primary" draggable="true">Augusto</span>
-          <span class="badge player bg-primary" draggable="true">Talisson</span>
-          <span class="badge player bg-primary" draggable="true">Emilio</span>
-          <span class="badge player bg-primary" draggable="true">Gustavo</span>
-
-          <span class="badge player bg-primary" draggable="true">Filipe</span>
-          <span class="badge player bg-primary" draggable="true">Alexandre</span>
-          <span class="badge player bg-primary" draggable="true">Jean</span>
-          <span class="badge player bg-primary" draggable="true">Clerisson</span>
-          <span class="badge player bg-primary" draggable="true">Jesus</span>
-          <span class="badge player bg-primary" draggable="true">Pedro</span>
-          <span class="badge player bg-primary" draggable="true">Sebastião</span>
-          <span class="badge player bg-primary" draggable="true">Luiz</span>
-
-          <span class="badge player bg-info" draggable="true">Jessica</span>
-          <span class="badge player bg-info" draggable="true">Núbia</span>
-          <span class="badge player bg-info" draggable="true">Ysa</span>
-          <span class="badge player bg-info" draggable="true">Ester</span>
-          <span class="badge player bg-info" draggable="true">Tia Lu</span>
-          <span class="badge player bg-info" draggable="true">Nádia</span>
-          <span class="badge player bg-info" draggable="true">Monick</span>
-          
-          <span class="badge player bg-warning" draggable="true">André</span>
-          <span class="badge player bg-warning" draggable="true">Robério</span>
-          <span class="badge player bg-warning" draggable="true">Marlon</span>
-          <input id="playerInput" type="text" placeholder="Adicionar participante…" />
+          <button id="createGroupsBtn" class="btn btn-primary w-100">
+            Criar grupos
+          </button>
         </div>
-      </div>
 
+        <!-- PARTICIPANTES -->
+        <div class="col-12 col-md-9">
+          <h6 class="text-muted mb-2">Participantes</h6>
+
+          <div id="playersPool" class="players-pool">
+            <span class="badge player bg-primary" draggable="true">Augusto</span>
+            <span class="badge player bg-primary" draggable="true">Talisson</span>
+            <span class="badge player bg-primary" draggable="true">Emilio</span>
+            <span class="badge player bg-primary" draggable="true">Gustavo</span>
+
+            <span class="badge player bg-primary" draggable="true">Filipe</span>
+            <span class="badge player bg-primary" draggable="true">Alexandre</span>
+            <span class="badge player bg-primary" draggable="true">Jean</span>
+            <span class="badge player bg-primary" draggable="true">Clerisson</span>
+            <span class="badge player bg-primary" draggable="true">Jesus</span>
+            <span class="badge player bg-primary" draggable="true">Pedro</span>
+            <span class="badge player bg-primary" draggable="true">Sebastião</span>
+            <span class="badge player bg-primary" draggable="true">Luiz</span>
+
+            <span class="badge player bg-info" draggable="true">Jessica</span>
+            <span class="badge player bg-info" draggable="true">Núbia</span>
+            <span class="badge player bg-info" draggable="true">Ysa</span>
+            <span class="badge player bg-info" draggable="true">Ester</span>
+            <span class="badge player bg-info" draggable="true">Tia Lu</span>
+            <span class="badge player bg-info" draggable="true">Nádia</span>
+            <span class="badge player bg-info" draggable="true">Monick</span>
+
+            <span class="badge player bg-warning" draggable="true">André</span>
+            <span class="badge player bg-warning" draggable="true">Robério</span>
+            <span class="badge player bg-warning" draggable="true">Marlon</span>
+
+            <input id="playerInput" type="text" placeholder="Adicionar participante…" />
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
-</div>
 
+  <!-- GRUPOS -->
   <div id="groupsSection" class="card mb-4 shadow-sm d-none">
     <div class="card-body">
       <div id="groupsContainer" class="row g-3"></div>
