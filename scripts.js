@@ -39,24 +39,41 @@ function enableDragAndDrop() {
   })
 }
 
+/* 🔹 CRIAR / EXPANDIR GRUPOS */
 createGroupsBtn.onclick = () => {
   groupsSection.classList.remove("d-none")
-  groupsContainer.innerHTML = ""
 
-  for (let i = 1; i <= +groupsSelect.value; i++) {
-    groupsContainer.innerHTML += `
-      <div class="col-12 col-md-6">
-        <div class="drop-zone p-2 border rounded">
-          <strong>Grupo ${i}</strong>
-        </div>
-      </div>`
+  const desiredQty = +groupsSelect.value
+  const existingGroups = groupsContainer.querySelectorAll(".drop-zone").length
+
+  // 🔴 Se diminuir quantidade, recria tudo
+  if (desiredQty < existingGroups) {
+    groupsContainer.innerHTML = ""
+  }
+
+  const startIndex = groupsContainer.querySelectorAll(".drop-zone").length
+
+  // 🟢 Cria apenas os grupos faltantes
+  for (let i = startIndex + 1; i <= desiredQty; i++) {
+    const col = document.createElement("div")
+    col.className = "col-12 col-md-6"
+
+    col.innerHTML = `
+      <div class="drop-zone">
+        <strong>Grupo ${i}</strong>
+      </div>
+    `
+
+    groupsContainer.appendChild(col)
   }
 
   enableDragAndDrop()
 }
 
+/* 🔹 ADICIONAR PARTICIPANTE */
 playerInput.onkeydown = e => {
   if (e.key !== "Enter") return
+
   const name = playerInput.value.trim()
   if (!name) return
 
@@ -67,9 +84,11 @@ playerInput.onkeydown = e => {
 
   playersPool.insertBefore(s, playerInput)
   playerInput.value = ""
+
   enableDragAndDrop()
 }
 
+/* 🔹 GERAR TIMES */
 generateTeamsBtn.onclick = () => {
   teamsContainer.innerHTML = ""
   alertBox.innerHTML = ""
@@ -82,48 +101,15 @@ generateTeamsBtn.onclick = () => {
   if (players.length > 24)
     return alertMsg("Máximo permitido: 24 participantes.", "danger")
 
-  const women = players.filter(p => p.classList.contains("bg-info"))
-  const warning = players.filter(p => p.classList.contains("bg-warning"))
-  const others = players.filter(
-    p => !p.classList.contains("bg-info") && !p.classList.contains("bg-warning")
-  )
+  shuffle(players)
 
   const teamsQty = Math.ceil(players.length / 6)
-
-  if (warning.length > teamsQty)
-    return alertMsg("Participantes 'warning' demais para separar.", "danger")
-
-  shuffle(women)
-  shuffle(warning)
-  shuffle(others)
-
   const teams = Array.from({ length: teamsQty }, () => [])
 
-  warning.forEach((p, i) => {
-    if (teams[i] && teams[i].length < 6)
-      teams[i].push(p)
-  })
-
-  let wi = 0
-  for (const w of women) {
-    let attempts = 0
-    while (
-      teams[wi].filter(p => p.classList.contains("bg-info")).length >= 2 ||
-      teams[wi].length >= 6
-    ) {
-      wi = (wi + 1) % teamsQty
-      attempts++
-      if (attempts > teamsQty) break
-    }
-    if (teams[wi].length < 6)
-      teams[wi].push(w)
-  }
-
-  for (const p of others) {
+  players.forEach(p => {
     const team = teams.find(t => t.length < 6)
-    if (!team) break
-    team.push(p)
-  }
+    if (team) team.push(p)
+  })
 
   teams.forEach((team, i) => {
     const broken = i === teams.length - 1 && team.length < 6
@@ -137,13 +123,13 @@ generateTeamsBtn.onclick = () => {
       </h6>
       <ul class="mb-0">
         ${team.map(p => `<li>${p.textContent}</li>`).join("")}
-      </ul>`
+      </ul>
+    `
 
     teamsContainer.appendChild(div)
   })
 
   teamsContainer.scrollIntoView({ behavior: "smooth" })
 }
-
 
 enableDragAndDrop()
