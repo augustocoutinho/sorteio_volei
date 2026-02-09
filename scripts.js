@@ -22,22 +22,76 @@ const alertMsg = (msg, type = "warning") => {
 
 const shuffle = arr => arr.sort(() => Math.random() - 0.5)
 
-function enableDragAndDrop() {
-  document.querySelectorAll(".player").forEach(p => {
-    p.ondragstart = () => draggedPlayer = p
-    p.ondragend = () => draggedPlayer = null
-  })
+let activePlayer = null
+let startX = 0
+let startY = 0
+let isDragging = false
+let currentDropZone = null
 
-  document.querySelectorAll(".drop-zone, #playersPool").forEach(z => {
-    z.ondragover = e => e.preventDefault()
-    z.ondrop = () => {
-      if (!draggedPlayer) return
-      z.id === "playersPool"
-        ? z.insertBefore(draggedPlayer, playerInput)
-        : z.appendChild(draggedPlayer)
-    }
-  })
+function enableDragAndDrop() {
+
+  playersPool.addEventListener("pointerdown", onPointerDown)
+  groupsContainer.addEventListener("pointerdown", onPointerDown)
+
+  document.addEventListener("pointermove", onPointerMove)
+  document.addEventListener("pointerup", onPointerUp)
 }
+
+function onPointerDown(e) {
+  const player = e.target.closest(".player")
+  if (!player) return
+
+  e.preventDefault() // 🔥 MUITO IMPORTANTE
+
+  activePlayer = player
+  startX = e.clientX
+  startY = e.clientY
+  isDragging = false
+  currentDropZone = null
+
+  player.setPointerCapture(e.pointerId)
+}
+
+function onPointerMove(e) {
+  if (!activePlayer) return
+
+  const dx = Math.abs(e.clientX - startX)
+  const dy = Math.abs(e.clientY - startY)
+
+  if (!isDragging && (dx > 6 || dy > 6)) {
+    isDragging = true
+    activePlayer.style.opacity = "0.6"
+  }
+
+  if (!isDragging) return
+
+  const el = document.elementFromPoint(e.clientX, e.clientY)
+  currentDropZone = el?.closest(".drop-zone, #playersPool") || null
+}
+
+function onPointerUp(e) {
+  if (!activePlayer) return
+
+  activePlayer.releasePointerCapture(e.pointerId)
+  activePlayer.style.opacity = "1"
+
+  if (isDragging && currentDropZone) {
+    const currentParent = activePlayer.parentElement
+
+    if (currentDropZone !== currentParent) {
+      if (currentDropZone.id === "playersPool") {
+        currentDropZone.insertBefore(activePlayer, playerInput)
+      } else {
+        currentDropZone.appendChild(activePlayer)
+      }
+    }
+  }
+
+  activePlayer = null
+  isDragging = false
+  currentDropZone = null
+}
+
 
 /* 🔹 CRIAR / EXPANDIR GRUPOS */
 createGroupsBtn.onclick = () => {
@@ -63,7 +117,6 @@ createGroupsBtn.onclick = () => {
     groupsContainer.appendChild(col)
   }
 
-  enableDragAndDrop()
 }
 
 /* 🔹 ADICIONAR PARTICIPANTE */
@@ -79,9 +132,10 @@ playerInput.onkeydown = e => {
   s.textContent = name
 
   playersPool.insertBefore(s, playerInput)
+  
+  playerInput.style.pointerEvents = "auto"
   playerInput.value = ""
 
-  enableDragAndDrop()
 }
 
 /* 🔹 GERAR TIMES (REGRAS AJUSTADAS) */
