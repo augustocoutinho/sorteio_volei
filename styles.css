@@ -45,9 +45,11 @@ body {
   padding: 6px 10px;
   border-radius: 8px;
   font-size: 0.85rem;
-  cursor: grab;
-  user-select: none;
   white-space: nowrap;
+
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
 }
 
 .player:active {
@@ -56,6 +58,10 @@ body {
 
 .player.dragging {
   opacity: 0.6;
+}
+
+#playerInput {
+  touch-action: manipulation;
 }
 
 /* Grupos */
