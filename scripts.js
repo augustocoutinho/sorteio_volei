@@ -46,24 +46,20 @@ createGroupsBtn.onclick = () => {
   const desiredQty = +groupsSelect.value
   const existingGroups = groupsContainer.querySelectorAll(".drop-zone").length
 
-  // 🔴 Se diminuir quantidade, recria tudo
   if (desiredQty < existingGroups) {
     groupsContainer.innerHTML = ""
   }
 
   const startIndex = groupsContainer.querySelectorAll(".drop-zone").length
 
-  // 🟢 Cria apenas os grupos faltantes
   for (let i = startIndex + 1; i <= desiredQty; i++) {
     const col = document.createElement("div")
     col.className = "col-12 col-md-6"
-
     col.innerHTML = `
       <div class="drop-zone">
         <strong>Grupo ${i}</strong>
       </div>
     `
-
     groupsContainer.appendChild(col)
   }
 
@@ -88,7 +84,7 @@ playerInput.onkeydown = e => {
   enableDragAndDrop()
 }
 
-/* 🔹 GERAR TIMES */
+/* 🔹 GERAR TIMES (REGRAS AJUSTADAS) */
 generateTeamsBtn.onclick = () => {
   teamsContainer.innerHTML = ""
   alertBox.innerHTML = ""
@@ -101,16 +97,58 @@ generateTeamsBtn.onclick = () => {
   if (players.length > 24)
     return alertMsg("Máximo permitido: 24 participantes.", "danger")
 
-  shuffle(players)
+  const women = players.filter(p => p.classList.contains("bg-info"))
+  const setters = players.filter(p => p.classList.contains("bg-warning"))
+  const others = players.filter(
+    p => !p.classList.contains("bg-info") && !p.classList.contains("bg-warning")
+  )
 
   const teamsQty = Math.ceil(players.length / 6)
+
+  if (setters.length > teamsQty)
+    return alertMsg("Há mais levantadores do que times.", "danger")
+
+  shuffle(women)
+  shuffle(setters)
+  shuffle(others)
+
   const teams = Array.from({ length: teamsQty }, () => [])
 
-  players.forEach(p => {
-    const team = teams.find(t => t.length < 6)
-    if (team) team.push(p)
+  /* 1️⃣ UM LEVANTADOR POR TIME */
+  setters.forEach((p, i) => {
+    teams[i].push(p)
   })
 
+  /* 2️⃣ UMA MULHER POR TIME (SE HOUVER) */
+  for (let i = 0; i < teamsQty && women.length; i++) {
+    teams[i].push(women.shift())
+  }
+
+  /* 3️⃣ MULHERES EXTRAS (SÓ SE > 4 NO TOTAL, MÁX 2 POR TIME) */
+  if (players.filter(p => p.classList.contains("bg-info")).length > 4) {
+    let idx = 0
+    while (women.length) {
+      const team = teams[idx]
+      const womenInTeam = team.filter(p => p.classList.contains("bg-info")).length
+
+      if (team.length < 6 && womenInTeam < 2) {
+        team.push(women.shift())
+      }
+
+      idx = (idx + 1) % teamsQty
+
+      if (idx === 0 && women.length) break
+    }
+  }
+
+  /* 4️⃣ COMPLETAR COM OUTROS */
+  for (const p of others) {
+    const team = teams.find(t => t.length < 6)
+    if (!team) break
+    team.push(p)
+  }
+
+  /* 5️⃣ RENDER */
   teams.forEach((team, i) => {
     const broken = i === teams.length - 1 && team.length < 6
 
@@ -125,7 +163,6 @@ generateTeamsBtn.onclick = () => {
         ${team.map(p => `<li>${p.textContent}</li>`).join("")}
       </ul>
     `
-
     teamsContainer.appendChild(div)
   })
 
